@@ -1,11 +1,15 @@
 const mongoose=require('mongoose');
+const config=require('config');
+const dbgr=require("debug")("development:mongoose");
+
+
 mongoose
-.connect('mongodb://localhost:27017/melano')
+.connect(`${config.get('MONGODB_URI')}/melano`)
 .then(function(){
-    console.log('connected');
+    dbgr(`connected at ${mongoose.connection.host}: ${process.env.port}`);
 })
 .catch((err)=>{
-console.log(err);
+dbgr(err);
 });
 
 

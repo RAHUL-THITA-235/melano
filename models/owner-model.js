@@ -12,7 +12,7 @@ password:String,
 products:[],
 picture:String,
 gstin:String
-});
+},{versionKey:false});
 
 
 
