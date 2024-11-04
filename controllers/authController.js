@@ -4,11 +4,15 @@ const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/generateTokens');
 const isLoggedIn = require('../middlewares/isLoggedIn');
 
-module.exports.registerUser=async (req, res) => {
+module.exports.registerUser = async (req, res) => {
     try {
         let { email, password, fullname } = req.body;
-        let user=await userModel.findOne({email:email});
-        if(user) return res.send("You already have an account in this email, try another one");
+        let user = await userModel.findOne({ email: email });
+        if (user) {
+            req.flash("error", "You already have an account in this email, try another one.");
+            res.render('index', { title: "Melano" });
+            //return res.send("You already have an account in this email, try another one");
+        }
         bcrypt.genSalt(8, (err, salt) => {
             bcrypt.hash(password, salt, async (err, hash) => {
                 if (err) {
@@ -20,11 +24,11 @@ module.exports.registerUser=async (req, res) => {
                         password: hash,
                         fullname
                     });
-                    
-                    const token=generateToken(user);
-                    res.cookie('token',token,{ httpOnly: true, secure: true });
-                    req.flash("success","User created succesfully!!!");
-                    res.render('index',{title:"Melano"});
+
+                    const token = generateToken(user);
+                    res.cookie('token', token, { httpOnly: true, secure: true });
+                    let error=req.flash("success", "User created succesfully!!!");
+                    res.render('index', { title: "Melano",error});
                 }
             });
 
@@ -33,30 +37,32 @@ module.exports.registerUser=async (req, res) => {
 
     } catch (err) {
         //res.send(err.message);
-        req.flash("error","Incorrect email or password!!!");
+        req.flash("error", "Incorrect email or password!!!");
         res.redirect("/");
     }
 }
 
-module.exports.loginUser=async (req, res) =>{
-    let {email,password}=req.body;
+module.exports.loginUser = async (req, res) => {
+    let { email, password } = req.body;
 
-    let user=await userModel.findOne({email});
-    if(!user) return res.send("Incorrect email or password");
+    let user = await userModel.findOne({ email });
+    if (!user) {
+        req.flash('error',"Enter a register email !!!");
+        return res.redirect("/");}
 
 
-    bcrypt.compare(password,user.password,(err,result)=>{
-        if(result){
-            let token=generateToken(user);
+    bcrypt.compare(password, user.password, (err, result) => {
+        if (result) {
+            let token = generateToken(user);
             //console.log(token);
-            res.cookie("token",token);
-           // res.render('shop',{title:"shopping"});
-           return res.redirect('/shop');
+            res.cookie("token", token);
+            // res.render('shop',{title:"shopping"});
+            return res.redirect('/shop');
         }
-        else{
-            req.flash("error","Incorrect email or password!!!");
-        res.redirect("/");
-           // return res.send("Incorrect email or password!!!");
+        else {
+            req.flash("error", "Incorrect email or password!!!");
+            res.redirect("/");
+            // return res.send("Incorrect email or password!!!");
         }
     });
 

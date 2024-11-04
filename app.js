@@ -27,7 +27,7 @@ app.use(expressSession({
     resave:false,
     saveUninitialized:false,
     secret:process.env.EXPRESS_SESSION_SECRET
-}))
+}));
 app.set('view engine',"ejs");
 
 /*app.get('/',(req,res)=>{

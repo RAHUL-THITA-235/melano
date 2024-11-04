@@ -12,14 +12,4 @@ router.get("/", (req, res) => {
 router.post("/register",registerUser);
 router.post("/login",loginUser);
 
-router.get('/logout', isLoggedIn, (req, res) => {
-    req.flash('success', "Logged out successfully");
-    res.clearCookie("token"); 
-
-
-    res.render('index', { 
-        title: "Melano", error: req.flash('success',"logged out"),
-    });
-});
-
 module.exports = router;

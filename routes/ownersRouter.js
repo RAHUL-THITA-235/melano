@@ -5,7 +5,7 @@ const ownerModel=require('../models/owner-model');
 if(process.env.NODE_ENV==="development"){
     router.post('/create',async(req,res)=>{
        // res.send("It's working");
-        let owners=await ownerModel.find();
+        let owners=await ownerModel.findOne({email:req.email});
         if(owners.length>0)
         {
             return res
@@ -28,15 +28,5 @@ router.get("/admin",(req,res)=>{
    let success=req.flash("success");
    res.render('createproducts',{success,title:"product creation"});
 });
-
-
-
-
-
-
-
-
-
-
 
 module.exports=router;

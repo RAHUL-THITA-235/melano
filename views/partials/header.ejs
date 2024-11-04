@@ -9,12 +9,17 @@
 </head>
 
 <body class="font-['helvetica_now_display']">
-    <nav class="w-full flex justify-between px-5 py-3">
+    <nav class="w-full flex justify-between px-5 py-3 bg-pink-200 ">
         <h3 class="text-xl text-purple-600">Melano</h3>
-        <div class="flex gap-5 mt-3">
-            <a href="/shop">Shop</a>
-            <a href="">Cart</a>
-            <a href="">My Account</a>
-            <a class="text-red-600" href="/users/logout">Logout</a>
-        </div>
+        <%# var loggedin=(typeof(loggedin)!=="undefined")?loggedin:true %>
+        <%# if(loggedin){%>
+            <div class="flex gap-5 mt-3">  
+                <a href="/">Home</a>         
+                <a href="/shop">Shop</a>
+                <a href="/cart">Cart</a>
+                <a href="">My Account</a>
+                <a class="text-red-600" href="/logout">Logout</a>
+            </div>
+        <%#} %>
+
     </nav>
