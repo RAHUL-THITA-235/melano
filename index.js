@@ -32,9 +32,6 @@ app.use(expressSession({
 }));
 app.set('view engine',"ejs");
 
-/*app.get('/',(req,res)=>{
-    res.send('hello');
-});*/
 app.use('/',indexRouter);
 app.use('/owners',ownersRouter);
 app.use('/users',usersRouter);
