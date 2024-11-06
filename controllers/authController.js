@@ -9,8 +9,8 @@ module.exports.registerUser = async (req, res) => {
         let { email, password, fullname } = req.body;
         let user = await userModel.findOne({ email: email });
         if (user) {
-            req.flash("error", "You already have an account in this email, try another one.");
-            res.render('index', { title: "Melano" });
+            let error=req.flash("error", "You already have an account in this email, try another one.");
+            res.render('index', { title: "Melano",error,success });
             //return res.send("You already have an account in this email, try another one");
         }
         bcrypt.genSalt(8, (err, salt) => {
@@ -27,8 +27,9 @@ module.exports.registerUser = async (req, res) => {
 
                     const token = generateToken(user);
                     res.cookie('token', token, { httpOnly: true, secure: true });
-                    let error=req.flash("success", "User created succesfully!!!");
-                    res.render('index', { title: "Melano",error});
+                    let error=req.flash("error", "Somethingwent wrong!!!");
+                    let success=req.flash("success", "User created succesfully!!!");
+                    res.render('index', { title: "Melano",error,success});
                 }
             });
 

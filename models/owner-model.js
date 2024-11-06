@@ -9,9 +9,9 @@ fullname:{
 },
 email:String,
 password:String,
-products:[],
-picture:String,
-gstin:String
+//products:[],
+//picture:String,
+//gstin:String
 },{versionKey:false});
 
 

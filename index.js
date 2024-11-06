@@ -4,6 +4,7 @@ const port=1020;
 const db=require('./config/database-connection');
 const expressSession=require('express-session');
 const flash=require("connect-flash");
+db();
 
 require('dotenv').config();
 const app=express();
@@ -16,6 +17,7 @@ const ownersRouter=require('./routes/ownersRouter');
 const usersRouter=require('./routes/usersRouter');
 const productsRouter=require('./routes/productsRouter');
 const indexRouter=require('./routes/index');
+const { connect } = require('http2');
 app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({

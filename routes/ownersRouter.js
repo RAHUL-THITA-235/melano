@@ -8,9 +8,8 @@ if(process.env.NODE_ENV==="development"){
         let owners=await ownerModel.findOne({email:req.email});
         if(owners.length>0)
         {
-            return res
-            .status(503)
-            .send("you don't have permisssion to create a new owner");
+            req.flash("error","you don't have permisssion to create a new owner");
+            return res.redirect("/");
         }
        // 
        let {fullname,email,password}=req.body;
@@ -19,7 +18,8 @@ if(process.env.NODE_ENV==="development"){
         email,
         password
        });
-       res.status(201).send(createdOwner);
+       req.flash('success',"owner created successfully!!!");
+       res.redirect('/');
     });
 }
 
@@ -28,5 +28,12 @@ router.get("/admin",(req,res)=>{
    let success=req.flash("success");
    res.render('createproducts',{success,title:"product creation"});
 });
+
+router.get("/create",(req,res)=>{
+    // res.send("Hey owner is working!!!!");
+    //let success=req.flash("success");
+    res.render('owner-login',{title:"owner login"});
+ });
+
 
 module.exports=router;
